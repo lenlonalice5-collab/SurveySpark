@@ -1,46 +1,135 @@
 import gradio as gr
+
 from questions import questions
 from scorer import score_answer
+question_list = questions[
+    "AI应用开发工程师"
+]
 
-def get_question():
-    return questions[
-        "AI应用开发工程师"
-    ][0]["question"]
+current_index = 0
 
-def evaluate(answer):
+results = []
+def get_current_question():
 
-    question = questions[
-        "AI应用开发工程师"
-    ][0]["question"]
+    global current_index
 
-    return score_answer(
+    if current_index < len(question_list):
+
+        return question_list[
+            current_index
+        ]["question"]
+
+    return "面试结束"
+def submit_answer(answer):
+
+    global current_index
+    global results
+
+    if current_index >= len(question_list):
+
+        return (
+            "面试结束",
+            "已经没有题目了"
+        )
+
+    question = question_list[
+        current_index
+    ]["question"]
+
+    score, feedback = score_answer(
         question,
         answer
     )
 
+    results.append(
+        {
+            "question": question,
+            "answer": answer,
+            "score": score
+        }
+    )
+
+    current_index += 1
+
+    if current_index < len(question_list):
+
+        next_question = question_list[
+            current_index
+        ]["question"]
+
+    else:
+
+        next_question = "面试结束"
+
+    return (
+        next_question,
+        feedback
+    )
+def show_result():
+
+    if len(results) == 0:
+
+        return "暂无成绩"
+
+    total = sum(
+        r["score"]
+        for r in results
+    )
+
+    avg = total / len(results)
+
+    report = f"""
+已完成题目数：{len(results)}
+
+平均分：{avg:.1f}
+"""
+
+    return report
 with gr.Blocks() as demo:
 
+    gr.Markdown(
+        "# InterviewGPT V2"
+    )
+
     question_box = gr.Textbox(
-        value=get_question(),
-        label="面试题",
-        interactive=False
+        value=get_current_question(),
+        label="当前题目"
     )
 
     answer_box = gr.Textbox(
-        label="你的回答"
+        label="你的回答",
+        lines=5
     )
 
-    output_box = gr.Textbox(
+    feedback_box = gr.Textbox(
         label="AI评价",
         lines=10
     )
 
-    btn = gr.Button("提交")
+    submit_btn = gr.Button(
+        "提交答案"
+    )
 
-    btn.click(
-        evaluate,
+    report_btn = gr.Button(
+        "查看成绩"
+    )
+
+    report_box = gr.Textbox(
+        label="成绩统计"
+    )
+
+    submit_btn.click(
+        submit_answer,
         inputs=answer_box,
-        outputs=output_box
+        outputs=[
+            question_box,
+            feedback_box
+        ]
+    )
+
+    report_btn.click(
+        show_result,
+        outputs=report_box
     )
 
 demo.launch()
