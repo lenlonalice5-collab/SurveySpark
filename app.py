@@ -13,6 +13,7 @@ from report import (
     generate_statistics,
     generate_skill_scores
 )
+from datetime import datetime
 
 
 question_list = questions[
@@ -22,6 +23,9 @@ question_list = questions[
 current_index = 0
 
 results = []
+
+interview_start_time = None
+
 def get_current_question():
 
     global current_index
@@ -37,6 +41,10 @@ def submit_answer(answer):
 
     global current_index
     global results
+    global interview_start_time
+
+    if interview_start_time is None:
+        interview_start_time = datetime.now()
 
     if current_index >= len(question_list):
 
@@ -80,6 +88,7 @@ def submit_answer(answer):
         next_question,
         feedback
     )
+
 def create_ai_report():
 
     global results
@@ -88,6 +97,7 @@ def create_ai_report():
         return "暂无面试记录"
 
     return generate_report(results)
+
 def create_skill_report():
 
     global results
@@ -117,30 +127,56 @@ def show_result():
 
     return report
 
+def get_interview_duration():
+
+    global interview_start_time
+
+    if interview_start_time is None:
+        return "0分钟"
+
+    end_time = datetime.now()
+
+    duration = end_time - interview_start_time
+
+    minutes = round(
+        duration.total_seconds() / 60,
+        2
+    )
+
+    return f"{minutes}分钟"
+
 def create_pdf():
 
     report = create_ai_report()
 
-    export_pdf(report)
+    stats = generate_statistics(
+        results
+    )
+
+    duration = get_interview_duration()
+
+    skill_scores = generate_skill_scores(
+        results
+    )
+
+    create_radar_chart(
+        skill_scores
+    )
+
+    export_pdf(
+        report,
+        stats,
+        duration
+    )
 
     return "PDF已生成"
 
-skill_scores = generate_skill_scores(
-    results
-)
 
-create_radar_chart(
-    skill_scores
-)
-
-stats = generate_statistics(
-    results
-)
 
 with gr.Blocks() as demo:
 
     gr.Markdown(
-        "# InterviewGPT V2"
+        "# InterviewGPT V4.2"
     )
 
     question_box = gr.Textbox(
@@ -179,6 +215,10 @@ with gr.Blocks() as demo:
 
     history_btn = gr.Button(
     "查看历史记录"
+    )
+
+    stats_btn = gr.Button(
+    "查看详细统计"
     )
 
     history_box = gr.Textbox(
@@ -240,6 +280,11 @@ with gr.Blocks() as demo:
     history_btn.click(
     load_history,
     outputs=history_box
+    )
+
+    stats_btn.click(
+    lambda: generate_statistics(results),
+    outputs=statistics_box
     )
 
 

@@ -33,5 +33,75 @@
                 "score": 0
             }
         ]
+    },
+    {
+        "time": "2026-06-08 01:07:29",
+        "results": [
+            {
+                "skill": "RAG",
+                "question": "什么是RAG？",
+                "answer": "1\n",
+                "score": 3
+            },
+            {
+                "skill": "Embedding",
+                "question": "什么是Embedding？",
+                "answer": "1\n",
+                "score": 0
+            },
+            {
+                "skill": "LangChain",
+                "question": "LangChain有什么作用？",
+                "answer": "1\n",
+                "score": 0
+            },
+            {
+                "skill": "Prompt",
+                "question": "什么是Prompt Engineering？",
+                "answer": "1\n",
+                "score": 0
+            },
+            {
+                "skill": "Agent",
+                "question": "什么是Agent？",
+                "answer": "1\n",
+                "score": 0
+            }
+        ]
+    },
+    {
+        "time": "2026-06-08 01:17:09",
+        "results": [
+            {
+                "skill": "RAG",
+                "question": "什么是RAG？",
+                "answer": "1\n",
+                "score": 0
+            },
+            {
+                "skill": "Embedding",
+                "question": "什么是Embedding？",
+                "answer": "1\n",
+                "score": 0
+            },
+            {
+                "skill": "LangChain",
+                "question": "LangChain有什么作用？",
+                "answer": "1\n",
+                "score": 0
+            },
+            {
+                "skill": "Prompt",
+                "question": "什么是Prompt Engineering？",
+                "answer": "1\n",
+                "score": 0
+            },
+            {
+                "skill": "Agent",
+                "question": "什么是Agent？",
+                "answer": "1\n",
+                "score": 0
+            }
+        ]
     }
 ]
