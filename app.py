@@ -2,6 +2,12 @@ import gradio as gr
 from report import (generate_report,generate_skill_report)
 from questions import questions
 from scorer import score_answer
+from pdf_export import export_pdf
+from history import (
+    save_history,
+    load_history
+)
+
 question_list = questions[
     "AI应用开发工程师"
 ]
@@ -61,6 +67,7 @@ def submit_answer(answer):
     else:
 
         next_question = "面试结束"
+        save_history(results)
 
     return (
         next_question,
@@ -102,6 +109,15 @@ def show_result():
     """
 
     return report
+
+def create_pdf():
+
+    report = create_ai_report()
+
+    export_pdf(report)
+
+    return "PDF已生成"
+
 with gr.Blocks() as demo:
 
     gr.Markdown(
@@ -137,6 +153,20 @@ with gr.Blocks() as demo:
     skill_btn = gr.Button(
     "能力画像"
     )
+
+    pdf_btn = gr.Button(
+    "导出PDF报告"
+    )
+
+    history_btn = gr.Button(
+    "查看历史记录"
+    )
+
+    history_box = gr.Textbox(
+    label="历史记录",
+    lines=15
+    )
+
     ai_report_box = gr.Textbox(
     label="AI面试报告",
     lines=15
@@ -149,6 +179,10 @@ with gr.Blocks() as demo:
 
     report_box = gr.Textbox(
         label="成绩统计"
+    )
+
+    pdf_status = gr.Textbox(
+    label="PDF状态"
     )
 
     submit_btn.click(
@@ -164,15 +198,26 @@ with gr.Blocks() as demo:
         show_result,
         outputs=report_box
     )
+
     ai_report_btn.click(
         create_ai_report,
         outputs=ai_report_box
     )
+
     skill_btn.click(
         create_skill_report,
         outputs=skill_box
     )
 
+    pdf_btn.click(
+    create_pdf,
+    outputs=pdf_status
+    )
+
+    history_btn.click(
+    load_history,
+    outputs=history_box
+    )
 
 
 
