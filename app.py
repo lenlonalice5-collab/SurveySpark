@@ -16,9 +16,9 @@ from report import (
 from datetime import datetime
 
 
-question_list = questions[
-    "AI应用开发工程师"
-]
+selected_job = "AI应用开发工程师"
+
+question_list = questions[selected_job]
 
 current_index = 0
 
@@ -64,6 +64,7 @@ def submit_answer(answer):
 
     results.append(
     {
+        "job": selected_job,
         "skill": question_list[current_index]["skill"],
         "question": question,
         "answer": answer,
@@ -166,10 +167,28 @@ def create_pdf():
     export_pdf(
         report,
         stats,
-        duration
+        duration,
+        selected_job
     )
 
     return "PDF已生成"
+
+def switch_job(job):
+
+    global selected_job
+    global question_list
+    global current_index
+    global results
+
+    selected_job = job
+
+    question_list = questions[job]
+
+    current_index = 0
+
+    results = []
+
+    return question_list[0]["question"]
 
 
 
@@ -177,6 +196,14 @@ with gr.Blocks() as demo:
 
     gr.Markdown(
         "# InterviewGPT V4.2"
+    )
+
+    job_dropdown = gr.Dropdown(
+    choices=list(
+        questions.keys()
+    ),
+    value="AI应用开发工程师",
+    label="选择岗位"
     )
 
     question_box = gr.Textbox(
@@ -287,6 +314,11 @@ with gr.Blocks() as demo:
     outputs=statistics_box
     )
 
+    job_dropdown.change(
+    switch_job,
+    inputs=job_dropdown,
+    outputs=question_box
+    )
 
 
 

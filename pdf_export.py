@@ -24,7 +24,8 @@ pdfmetrics.registerFont(
 def export_pdf(
     report_text,
     stats_text,
-    duration_text
+    duration_text,
+    job_name
 ):
 
     pdf = SimpleDocTemplate(
@@ -44,6 +45,13 @@ def export_pdf(
             "InterviewGPT AI面试报告",
             styles["Title"]
         )
+    )
+
+    content.append(
+    Paragraph(
+        f"岗位：{job_name}",
+        styles["BodyText"]
+    )
     )
 
     content.append(
