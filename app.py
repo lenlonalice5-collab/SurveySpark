@@ -18,6 +18,9 @@ from followup import (
     generate_followup
 )
 from speech import speech_to_text
+from database import init_db
+from database import save_record
+from database import get_all_records
 
 followup_count = 0
 
@@ -38,6 +41,8 @@ is_followup = False
 current_question_text = ""
 
 current_question_text = question_list[current_index]["question"]
+
+init_db()
 
 def get_current_question():
 
@@ -77,12 +82,34 @@ def quick_check(answer):
 
     return False
 
+def load_history_db():
+
+    rows = get_all_records()
+
+    if not rows:
+
+        return "暂无记录"
+
+    text = ""
+
+    for row in rows:
+
+        text += f"""
+岗位：{row[1]}
+技能：{row[2]}
+分数：{row[5]}
+----------------
+"""
+
+    return text
+
 def submit_answer(answer):
 
     global current_index
     global results
     global interview_start_time
     global is_followup
+    global followup_count
 
     if is_followup:
 
@@ -140,7 +167,8 @@ def submit_answer(answer):
 
         return (
         current_question_text,
-        "回答过短，请补充更多细节。"
+        "回答过短，请补充更多细节。",
+        get_progress()
         )
 
     results.append(
@@ -151,6 +179,10 @@ def submit_answer(answer):
         "answer": answer,
         "score": score
     }
+    )
+
+    save_record(
+    results[-1]
     )
 
     current_index += 1
@@ -164,7 +196,6 @@ def submit_answer(answer):
     else:
 
         next_question = "面试结束"
-        save_history(results)
 
     return (
         next_question,
@@ -464,7 +495,7 @@ with gr.Blocks() as demo:
     )
 
     history_btn.click(
-        load_history,
+        load_history_db,
         outputs=history_box
     )
 
@@ -501,7 +532,7 @@ with gr.Blocks() as demo:
     job_input.submit(
         switch_job,
         inputs=job_input,
-        outputs=question_box
+        outputs=[question_box,progress_box]
     )
 
 

@@ -1,8 +1,12 @@
 import json
 from datetime import datetime
+from database import get_scores
 
 
-def save_history(results):
+def save_history(scores=None):
+
+    if scores is None:
+        scores = get_scores()
 
     filename = "history.json"
 
@@ -10,7 +14,7 @@ def save_history(results):
         "time": datetime.now().strftime(
             "%Y-%m-%d %H:%M:%S"
         ),
-        "results": results
+        "results": scores
     }
 
     try:

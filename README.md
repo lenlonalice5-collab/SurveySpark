@@ -10,7 +10,8 @@
   <img src="https://img.shields.io/badge/Gradio-WebUI-orange">
   <img src="https://img.shields.io/badge/DeepSeek-LLM-green">
   <img src="https://img.shields.io/badge/Whisper-ASR-purple">
-  <img src="https://img.shields.io/badge/Version-v6.2-red">
+  <img src="https://img.shields.io/badge/SQLite-Database-blue">
+  <img src="https://img.shields.io/badge/Version-v6.3-red">
 </p>
 
 ---
@@ -71,6 +72,29 @@ AI 回答评分
 * 中文语音转文字
 * 无需云端 ASR 服务
 * 支持离线运行
+
+---
+
+### 🗄️ SQLite Database
+
+SQLite 数据库支持
+
+* 自动保存面试记录
+* 永久存储评分结果
+* 支持历史查询
+* 支持后续排行榜扩展
+* 支持用户系统扩展
+
+---
+
+### 📍 Interview Progress Tracking
+
+面试进度追踪
+
+* 当前题目显示
+* 总题数统计
+* 百分比完成度
+* 实时更新
 
 ---
 
@@ -147,9 +171,46 @@ PDF导出
 
 历史记录管理
 
-* 本地保存面试记录
-* 历史面试回顾
-* 成绩追踪
+双存储架构：
+
+* JSON 历史归档
+* SQLite 数据库存储
+* 面试记录查询
+* 成绩趋势追踪
+* 后续支持用户维度分析
+
+---
+
+## 🗄️ Data Storage | 数据存储
+
+InterviewGPT currently uses a hybrid storage architecture.
+
+InterviewGPT 当前采用双存储架构。
+
+### SQLite Database
+
+用于存储：
+
+* Job
+* Skill
+* Question
+* Answer
+* Score
+* Time
+
+当前数据表：
+
+* interviews
+* users
+* mistakes
+
+### JSON Archive
+
+用于存储：
+
+* 面试历史快照
+* 报告归档
+* 本地备份
 
 ---
 
@@ -161,32 +222,55 @@ PDF导出
 └──────┬───────┘
        │
        ▼
-┌──────────────┐
-│ InterviewGPT │
-└──────┬───────┘
-       │
- ┌─────┼─────┐
- ▼     ▼     ▼
 
-Question  Scorer  Follow-up
-Generator Engine  Generator
+┌────────────────────┐
+│    InterviewGPT    │
+└─────────┬──────────┘
+          │
 
- ▼
-DeepSeek API
+ ┌────────┼────────┐
+ ▼        ▼        ▼
 
- ▼
+Question  Scorer   Follow-up
+Generator Engine   Generator
 
-Report System
- │
- ├── Statistics
- ├── Skill Profile
- ├── Radar Chart
- └── PDF Export
+          │
+          ▼
 
- ▼
+      DeepSeek API
 
-Whisper ASR
-(Voice → Text)
+          │
+
+ ┌────────┼────────┐
+ ▼        ▼        ▼
+
+Report  Statistics Skill Profile
+
+          │
+          ▼
+
+     Radar Chart
+
+          │
+          ▼
+
+      PDF Export
+
+          │
+          ▼
+
+     Whisper ASR
+   (Voice → Text)
+
+          │
+          ▼
+
+      SQLite DB
+
+          │
+          ▼
+
+ Interview Records
 ```
 
 ---
@@ -197,6 +281,8 @@ Whisper ASR
 InterviewGPT/
 │
 ├── app.py
+├── database.py
+├── speech.py
 ├── scorer.py
 ├── followup.py
 ├── question_generator.py
@@ -204,11 +290,11 @@ InterviewGPT/
 ├── radar_chart.py
 ├── pdf_export.py
 ├── history.py
-├── speech.py
 │
-├── reports/
-├── history/
-├── charts/
+├── interview.db
+├── history.json
+├── radar.png
+├── report.pdf
 │
 ├── requirements.txt
 └── README.md
@@ -289,38 +375,55 @@ http://127.0.0.1:7860
 | Question Generation | ✅      |
 | AI Scoring          | ✅      |
 | Follow-up Questions | ✅      |
+| Whisper ASR         | ✅      |
+| Progress Tracking   | ✅      |
 | Statistics          | ✅      |
 | Skill Analysis      | ✅      |
 | Radar Chart         | ✅      |
 | PDF Export          | ✅      |
+| SQLite Database     | ✅      |
 | History Records     | ✅      |
-| Whisper ASR         | ✅      |
 
 ---
 
 ## 🛣️ Roadmap
 
-### V6.3
+### ✅ V6.3
 
-计划开发：
+Completed
 
-* 多轮追问优化
-* 流式输出
-* 面试难度调节
-* 岗位知识库
-* SQLite数据库
-* 用户登录系统
-* 面试排行榜
+* Whisper Local ASR
+* SQLite Database
+* Interview Progress Tracking
+* Database Record Viewer
+* Hybrid Storage Architecture
 
-### V7.0
+---
 
-长期规划：
+### 🚧 V6.4
 
-* RAG知识库面试
-* 本地大模型支持
-* 多模态面试
-* 在线部署版本
-* 企业级面试平台
+In Development
+
+* User Login System
+* Wrong Question Collection
+* Leaderboard
+* Question Difficulty Levels
+* Resume Upload
+* Personalized Interview Modes
+
+---
+
+### 🚀 V7.0
+
+Future Plan
+
+* RAG Interview System
+* Local LLM Support
+* Multi-Agent Interviewer
+* Resume Analysis
+* Multi-Modal Interview
+* Cloud Deployment
+* Enterprise Edition
 
 ---
 
@@ -334,6 +437,7 @@ Built with:
 * Gradio
 * DeepSeek API
 * Whisper
+* SQLite
 * ReportLab
 * Matplotlib
 
