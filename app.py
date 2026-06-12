@@ -21,6 +21,9 @@ from speech import speech_to_text
 from database import init_db
 from database import save_record
 from database import get_all_records
+from database import create_user
+from database import get_user
+from database import update_user_score
 
 followup_count = 0
 
@@ -40,9 +43,21 @@ is_followup = False
 
 current_question_text = ""
 
+current_user = ""
+
 current_question_text = question_list[current_index]["question"]
 
 init_db()
+
+def login(username):
+
+    global current_user
+
+    current_user = username
+
+    create_user(username)
+
+    return f"欢迎 {username}"
 
 def get_current_question():
 
@@ -196,6 +211,17 @@ def submit_answer(answer):
     else:
 
         next_question = "面试结束"
+        save_history(results)
+
+        avg = sum(
+            r["score"]
+            for r in results
+        ) / len(results)
+
+        update_user_score(
+            current_user,
+           int(avg)
+        )
 
     return (
         next_question,
@@ -350,10 +376,45 @@ def convert_voice(audio_file):
         audio_file
     )
 
+def show_profile():
+
+    profile = get_user_profile(
+        current_user
+    )
+
+    if not profile:
+
+        return "用户不存在"
+
+    avg = 0
+
+    if profile[2] > 0:
+
+        avg = profile[1] / profile[2]
+
+    return f"""
+用户名：{profile[0]}
+
+面试次数：{profile[2]}
+
+累计得分：{profile[1]}
+
+平均分：{avg:.1f}
+"""
+
 with gr.Blocks() as demo:
 
     gr.Markdown(
-        "# InterviewGPT V6.3"
+        "# InterviewGPT V6.4"
+    )
+
+    username_input = gr.Textbox(
+    label="用户名",
+    value="guest"
+    )
+
+    user_status = gr.Textbox(
+    label="用户状态"
     )
 
     job_input = gr.Textbox(
@@ -386,6 +447,10 @@ with gr.Blocks() as demo:
     feedback_box = gr.Textbox(
         label="AI评价",
         lines=10
+    )
+
+    login_btn = gr.Button(
+    "登录"
     )
 
     voice_btn = gr.Button(
@@ -429,6 +494,14 @@ with gr.Blocks() as demo:
 
     stats_btn = gr.Button(
         "查看详细统计"
+    )
+
+    profile_btn = gr.Button(
+    "个人中心"
+    )
+
+    profile_box = gr.Textbox(
+        label="个人资料"
     )
 
     history_box = gr.Textbox(
@@ -527,6 +600,17 @@ with gr.Blocks() as demo:
             question_box,
             progress_box
         ]
+    )
+
+    login_btn.click(
+        login,
+        inputs=username_input,
+        outputs=user_status
+    )
+
+    profile_btn.click(
+    show_profile,
+    outputs=profile_box
     )
 
     job_input.submit(

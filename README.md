@@ -10,106 +10,85 @@
   <img src="https://img.shields.io/badge/Gradio-WebUI-orange">
   <img src="https://img.shields.io/badge/DeepSeek-LLM-green">
   <img src="https://img.shields.io/badge/Whisper-ASR-purple">
-  <img src="https://img.shields.io/badge/SQLite-Database-blue">
-  <img src="https://img.shields.io/badge/Version-v6.3-red">
+  <img src="https://img.shields.io/badge/SQLite-Database-yellow">
+  <img src="https://img.shields.io/badge/Version-v6.4-red">
 </p>
 
 ---
 
-## 📖 Project Overview | 项目简介
-
-InterviewGPT 是一个基于大语言模型（LLM）的 AI 模拟面试系统。
-
-系统能够根据目标岗位自动生成面试题，实时分析候选人回答，进行评分、追问、能力评估，并自动生成专业面试报告。
+# 📖 Project Overview | 项目简介
 
 InterviewGPT is an AI-powered mock interview platform built with Large Language Models.
 
-It automatically generates interview questions, evaluates candidate responses, provides follow-up questions, analyzes competencies, and generates professional interview reports.
+It automatically generates interview questions, evaluates candidate responses, creates follow-up questions, performs competency analysis, stores interview records, and generates professional interview reports.
+
+InterviewGPT 是一个基于大语言模型（LLM）的智能模拟面试系统。
+
+系统能够自动生成面试题、分析候选人回答、动态追问、能力评估、数据存储，并生成专业面试报告。
 
 ---
 
-## ✨ Features | 核心功能
+# ✨ Features | 核心功能
 
-### 🤖 AI Interview Simulation
+## 🤖 AI Interview Simulation
 
 智能面试模拟
 
-* 根据岗位自动生成面试题
-* 支持多岗位扩展
+* 岗位定制化面试题生成
+* 多岗位扩展支持
 * 模拟真实技术面试流程
-* 支持重新生成题目
+* 重新生成题目
 
 ---
 
-### 🧠 AI Answer Evaluation
+## 🧠 AI Answer Evaluation
 
 AI 回答评分
 
 * 自动评分
-* 回答优缺点分析
-* 面试表现反馈
+* 回答质量分析
+* 优缺点反馈
 * 综合能力评估
 
 ---
 
-### 🔄 Dynamic Follow-up Questions
+## 🔄 Dynamic Follow-up Questions
 
 智能追问机制
 
-* 基于回答内容生成追问
-* 模拟真实面试官提问逻辑
+* AI 自动生成追问
+* 基于回答内容继续深入
 * 自动控制追问轮次
 * 提高面试真实性
 
 ---
 
-### 🎤 Local Speech Recognition
+## 🎤 Local Speech Recognition
 
 本地语音识别
 
-* Whisper 本地部署
+Powered by Whisper
+
 * 麦克风录音
 * 中文语音转文字
-* 无需云端 ASR 服务
-* 支持离线运行
+* 完全本地运行
+* 无需第三方语音服务
+* 支持离线环境
 
 ---
 
-### 🗄️ SQLite Database
+## 📊 Interview Progress Tracking
 
-SQLite 数据库支持
+面试进度跟踪
 
-* 自动保存面试记录
-* 永久存储评分结果
-* 支持历史查询
-* 支持后续排行榜扩展
-* 支持用户系统扩展
-
----
-
-### 📍 Interview Progress Tracking
-
-面试进度追踪
-
-* 当前题目显示
-* 总题数统计
-* 百分比完成度
+* 当前题目进度
+* 完成百分比
+* 面试时长统计
 * 实时更新
 
 ---
 
-### 📊 Interview Statistics
-
-面试数据统计
-
-* 已完成题目数
-* 平均得分
-* 面试时长统计
-* 技能维度分析
-
----
-
-### 🎯 Skill Profile Analysis
+## 🎯 Skill Profile Analysis
 
 能力画像分析
 
@@ -126,185 +105,175 @@ SQLite 数据库支持
 
 ---
 
-### 📈 Radar Chart Visualization
+## 📈 Radar Chart Visualization
 
 能力雷达图
 
 自动生成：
 
-* 技能维度评分
-* 能力分布分析
-* 中文字体支持
-* PDF集成展示
+* 技能评分
+* 能力分布
+* 雷达图可视化
+* PDF 集成
 
 ---
 
-### 📄 AI Interview Report
+## 📄 AI Interview Report
 
-AI面试报告
+AI 面试报告
 
 自动生成：
 
 * 综合评价
 * 优势分析
 * 不足分析
-* 提升建议
-* 后续学习方向
+* 学习建议
+* 成长方向
 
 ---
 
-### 📑 PDF Export
+## 📑 PDF Export
 
-PDF导出
+PDF 导出
 
-导出内容包括：
+支持导出：
 
-* 面试报告
+* AI面试报告
+* 技能分析
 * 面试统计
 * 面试时长
-* 能力雷达图
-* 岗位信息
+* 雷达图
 
 ---
 
-### 💾 Interview History
+## 💾 Interview History
 
 历史记录管理
 
-双存储架构：
-
-* JSON 历史归档
-* SQLite 数据库存储
-* 面试记录查询
-* 成绩趋势追踪
-* 后续支持用户维度分析
+* 本地历史记录
+* JSON 存档
+* 历史成绩查看
 
 ---
 
-## 🗄️ Data Storage | 数据存储
+## 🗄️ SQLite Database
 
-InterviewGPT currently uses a hybrid storage architecture.
+数据库支持（V6.3）
 
-InterviewGPT 当前采用双存储架构。
+InterviewGPT now supports SQLite persistence.
 
-### SQLite Database
+InterviewGPT 已支持 SQLite 数据存储。
 
-用于存储：
+### interviews
 
-* Job
-* Skill
-* Question
-* Answer
-* Score
-* Time
+存储：
 
-当前数据表：
+* 岗位信息
+* 面试题目
+* 用户回答
+* AI评分
+* 时间记录
 
-* interviews
-* users
-* mistakes
+### users
 
-### JSON Archive
+存储：
 
-用于存储：
+* 用户名
+* 累计得分
+* 面试次数
+* 注册时间
 
-* 面试历史快照
-* 报告归档
-* 本地备份
+### mistakes
+
+预留错题本功能
 
 ---
 
-## 🏗️ System Architecture | 系统架构
+## 👤 User System
+
+用户系统（V6.4）
+
+支持：
+
+* 用户登录
+* 自动创建用户
+* 成绩绑定用户
+* 用户资料查看
+* 累计面试统计
+
+---
+
+# 🏗️ System Architecture | 系统架构
 
 ```text
-┌──────────────┐
-│   Gradio UI  │
-└──────┬───────┘
-       │
-       ▼
+Gradio UI
+    │
+    ▼
+InterviewGPT Core
+    │
+ ┌──┼───────────────┐
+ ▼  ▼               ▼
 
-┌────────────────────┐
-│    InterviewGPT    │
-└─────────┬──────────┘
-          │
+Question      Scoring
+Generator     Engine
 
- ┌────────┼────────┐
- ▼        ▼        ▼
+ ▼
+DeepSeek API
 
-Question  Scorer   Follow-up
-Generator Engine   Generator
+ ▼
 
-          │
-          ▼
+Follow-up Engine
 
-      DeepSeek API
+ ▼
 
-          │
+Report System
+ ├─ Statistics
+ ├─ Skill Analysis
+ ├─ Radar Chart
+ └─ PDF Export
 
- ┌────────┼────────┐
- ▼        ▼        ▼
+ ▼
 
-Report  Statistics Skill Profile
+Whisper ASR
+(Voice → Text)
 
-          │
-          ▼
+ ▼
 
-     Radar Chart
-
-          │
-          ▼
-
-      PDF Export
-
-          │
-          ▼
-
-     Whisper ASR
-   (Voice → Text)
-
-          │
-          ▼
-
-      SQLite DB
-
-          │
-          ▼
-
- Interview Records
+SQLite Database
+ ├─ Users
+ ├─ Interviews
+ └─ Mistakes
 ```
 
----
-
-## 📂 Project Structure | 项目结构
+# 📂 Project Structure | 项目结构
 
 ```text
 InterviewGPT/
-│
+
 ├── app.py
 ├── database.py
 ├── speech.py
 ├── scorer.py
 ├── followup.py
-├── question_generator.py
 ├── report.py
+├── history.py
 ├── radar_chart.py
 ├── pdf_export.py
-├── history.py
-│
+├── question_generator.py
+
 ├── interview.db
 ├── history.json
-├── radar.png
-├── report.pdf
-│
+
+├── reports/
+├── charts/
+
 ├── requirements.txt
 └── README.md
 ```
 
----
+# 🚀 Installation | 安装
 
-## 🚀 Installation | 安装
-
-### 1. Clone Repository
+## 1. Clone Repository
 
 ```bash
 git clone https://github.com/yourname/interview-gpt.git
@@ -312,7 +281,7 @@ git clone https://github.com/yourname/interview-gpt.git
 cd interview-gpt
 ```
 
-### 2. Create Virtual Environment
+## 2. Create Virtual Environment
 
 ```bash
 python -m venv venv
@@ -324,51 +293,39 @@ Windows
 venv\Scripts\activate
 ```
 
----
-
-### 3. Install Dependencies
+## 3. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
----
-
-### 4. Install Whisper
+## 4. Install Whisper
 
 ```bash
 pip install openai-whisper
 ```
 
----
+## 5. Install FFmpeg
 
-### 5. Install FFmpeg
-
-Windows 用户需要安装 FFmpeg 并加入环境变量。
-
-验证：
+Verify：
 
 ```bash
 ffmpeg -version
 ```
 
----
-
-## ▶️ Run
+# ▶️ Run
 
 ```bash
 python app.py
 ```
 
-访问：
+Open:
 
 ```text
 http://127.0.0.1:7860
 ```
 
----
-
-## 📊 Current Capabilities | 当前能力
+# 📊 Current Capabilities | 当前能力
 
 | Module              | Status |
 | ------------------- | ------ |
@@ -381,53 +338,33 @@ http://127.0.0.1:7860
 | Skill Analysis      | ✅      |
 | Radar Chart         | ✅      |
 | PDF Export          | ✅      |
-| SQLite Database     | ✅      |
 | History Records     | ✅      |
+| SQLite Database     | ✅      |
+| User System         | ✅      |
 
----
+# 🛣️ Roadmap
 
-## 🛣️ Roadmap
+## V6.5
 
-### ✅ V6.3
+Planned Features
 
-Completed
+* 🏆 Leaderboard
+* ❌ Mistake Book
+* 📈 Growth Curve
+* 👥 Multi-user Statistics
+* 🔍 Database Search
 
-* Whisper Local ASR
-* SQLite Database
-* Interview Progress Tracking
-* Database Record Viewer
-* Hybrid Storage Architecture
+## V7.0
 
----
-
-### 🚧 V6.4
-
-In Development
-
-* User Login System
-* Wrong Question Collection
-* Leaderboard
-* Question Difficulty Levels
-* Resume Upload
-* Personalized Interview Modes
-
----
-
-### 🚀 V7.0
-
-Future Plan
+Long-term Plan
 
 * RAG Interview System
 * Local LLM Support
-* Multi-Agent Interviewer
-* Resume Analysis
-* Multi-Modal Interview
-* Cloud Deployment
-* Enterprise Edition
+* Multi-modal Interview
+* Online Deployment
+* Enterprise Interview Platform
 
----
-
-## 🧑‍💻 Author
+# 🧑‍💻 Author
 
 Developed by Lenlon
 
@@ -441,9 +378,7 @@ Built with:
 * ReportLab
 * Matplotlib
 
----
-
-## 📜 License
+# 📜 License
 
 MIT License
 

@@ -33,6 +33,10 @@ def init_db():
 
         username TEXT UNIQUE,
 
+        total_score INTEGER DEFAULT 0,
+
+        interview_count INTEGER DEFAULT 0,
+
         create_time DATETIME DEFAULT CURRENT_TIMESTAMP
     )
     """)
@@ -96,6 +100,27 @@ def save_record(data):
 
     conn.close()
 
+def create_user(username):
+
+    conn = sqlite3.connect(
+        "interview.db"
+    )
+
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    INSERT OR IGNORE INTO users(
+        username
+    )
+    VALUES(?)
+    """,
+    (username,)
+    )
+
+    conn.commit()
+
+    conn.close()
+
 def get_all_records():
 
     conn = sqlite3.connect(
@@ -137,3 +162,85 @@ def get_scores():
         row[0]
         for row in rows
     ]
+
+def get_user(username):
+
+    conn = sqlite3.connect(
+        "interview.db"
+    )
+
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT *
+    FROM users
+    WHERE username=?
+    """,
+    (username,)
+    )
+
+    row = cursor.fetchone()
+
+    conn.close()
+
+    return row
+
+def update_user_score(
+    username,
+    score
+):
+
+    conn = sqlite3.connect(
+        "interview.db"
+    )
+
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    UPDATE users
+    SET
+
+    total_score =
+        total_score + ?,
+
+    interview_count =
+        interview_count + 1
+
+    WHERE username=?
+    """,
+
+    (
+        score,
+        username
+    )
+    )
+
+    conn.commit()
+
+    conn.close()
+
+
+def get_user_profile(username):
+
+    conn = sqlite3.connect(
+        "interview.db"
+    )
+
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT
+    username,
+    total_score,
+    interview_count
+    FROM users
+    WHERE username=?
+    """,
+    (username,)
+    )
+
+    row = cursor.fetchone()
+
+    conn.close()
+
+    return row
